@@ -1,6 +1,6 @@
 import numpy as np
 from CoronaTestingSimulation import Corona_Simulation
-from auxt import generate_data
+from simulator import generate_data
 import warnings
 
 
@@ -14,7 +14,7 @@ class Corona_Simulation_Statistics():
     """
 
     def __init__(self, prob_sick,
-                 success_rate_test, false_posivite_rate, test_strategy,
+                 success_rate_test, false_posivite_rate, test_strategy, num_simutaneous_tests,
                  test_duration=6, group_size=8,
                  tests_repititions=1, test_result_decision_strategy='max', scale_factor_pop=1):
 
@@ -23,6 +23,7 @@ class Corona_Simulation_Statistics():
         self.success_rate_test = success_rate_test
         self.false_posivite_rate = false_posivite_rate
         self.tests_repititions = tests_repititions
+        self.num_simutaneous_tests = num_simutaneous_tests
         self.test_result_decision_strategy = test_result_decision_strategy
         self.group_size = group_size
         self.test_duration = test_duration

@@ -7,7 +7,7 @@ import math
 import sys
 import numpy as np
 import warnings
-import auxt
+import simulator
 
 
 class Corona_Simulation(object):
@@ -113,7 +113,7 @@ class Corona_Simulation(object):
         # split in left and right branch
         for i in range(2):
             if len(testgroup[i][0]) != 0:
-                result_test[i] += aux._make_test(
+                result_test[i] += simulator._make_test(
                     testgroup[i][1], self.success_rate_test, self.false_posivite_rate_test, self.prob_sick,
                     self.tests_repetitions, self.test_result_decision_strategy)
                 # Adjust the counter for the number of tests
@@ -133,8 +133,8 @@ class Corona_Simulation(object):
         """
         healthy_set = [[], []]
         while len(contaminated_set[0]) >> 1:
-            test_group = aux._split_groups(contaminated_set)
-            if aux._make_test(test_group[0][1], self.success_rate_test, self.false_posivite_rate_test, self.prob_sick,
+            test_group = simulator._split_groups(contaminated_set)
+            if simulator._make_test(test_group[0][1], self.success_rate_test, self.false_posivite_rate_test, self.prob_sick,
                               self.tests_repetitions, self.test_result_decision_strategy) == 1:
                 contaminated_set = test_group[0]
             else:
@@ -165,7 +165,7 @@ class Corona_Simulation(object):
                 if not self.indicator:
                     self.number_of_tests += self.tests_repetitions
                     self.number_groupwise_tests[int(np.floor(testgroup[0][0] / self.group_size))] += 1
-                    if aux._make_test(testgroup[1], self.success_rate_test, self.false_posivite_rate_test, self.prob_sick,
+                    if simulator._make_test(testgroup[1], self.success_rate_test, self.false_posivite_rate_test, self.prob_sick,
                                       self.tests_repetitions, self.test_result_decision_strategy) == 1:
                         self.sick_individuals.append(testgroup[0][0])
                     return
@@ -176,7 +176,7 @@ class Corona_Simulation(object):
             # fix for empty groups ?
             elif len(testgroup[0]) != 0:
                 if not self.indicator:
-                    testresult = aux._make_test(
+                    testresult = simulator._make_test(
                         testgroup[1], self.success_rate_test, self.false_posivite_rate_test, self.prob_sick,
                         self.tests_repetitions, self.test_result_decision_strategy)
                     self.number_of_tests += self.tests_repetitions
@@ -186,14 +186,14 @@ class Corona_Simulation(object):
                     testresult = 1
 
                 if testresult == 1:
-                    testgroup = aux._split_groups(testgroup)
+                    testgroup = simulator._split_groups(testgroup)
 
                     # instantiate test results
                     result_test = [0, 0]
 
                     # split in left and right branch
                     for i in range(2):
-                        result_test[i] += aux._make_test(
+                        result_test[i] += simulator._make_test(
                             testgroup[i][1], self.success_rate_test, self.false_posivite_rate_test, self.prob_sick,
                             self.tests_repetitions, self.test_result_decision_strategy)
                         self.number_of_tests += self.tests_repetitions
@@ -372,7 +372,7 @@ class Corona_Simulation(object):
                     # take k individuals from binomial set into testgroup
                     testgroup = [binomial_set[0][:k], binomial_set[1][:k]]
                     binomial_set = [binomial_set[0][k:], binomial_set[1][k:]]
-                    testresult = aux._make_test(
+                    testresult = simulator._make_test(
                         testgroup[1], self.success_rate_test, self.false_posivite_rate_test, self.prob_sick,
                         self.tests_repetitions, self.test_result_decision_strategy)
                     self.number_of_tests += self.tests_repetitions
@@ -399,7 +399,7 @@ class Corona_Simulation(object):
                     # take k individuals from defective set into testgroup
                     testgroup = [defective_set[0][:k], defective_set[1][:k]]
                     defective_set = [defective_set[0][k:], defective_set[1][k:]]
-                    testresult = aux._make_test(
+                    testresult = simulator._make_test(
                         testgroup[1], self.success_rate_test, self.false_posivite_rate_test, self.prob_sick,
                         self.tests_repetitions, self.test_result_decision_strategy)
                     self.number_of_tests += self.tests_repetitions
@@ -459,7 +459,7 @@ class Corona_Simulation(object):
             for i in range(min(len(self.active_groups), self.num_simultaneous_tests)):
                 testgroup = self.active_groups[0]
                 self.active_groups = self.active_groups[1:]
-                testresult = aux._make_test(
+                testresult = simulator._make_test(
                     testgroup[1], self.success_rate_test, self.false_posivite_rate_test, self.prob_sick,
                     self.tests_repetitions, self.test_result_decision_strategy)
                 self.number_of_tests += self.tests_repetitions
@@ -502,7 +502,7 @@ class Corona_Simulation(object):
             for i in range(min(len(self.active_groups), self.num_simultaneous_tests)):
                 testgroup = self.active_groups[0]
                 self.active_groups = self.active_groups[1:]
-                testresult = aux._make_test(
+                testresult = simulator._make_test(
                     testgroup[1], self.success_rate_test, self.false_posivite_rate_test, self.prob_sick,
                     self.tests_repetitions, self.test_result_decision_strategy)
                 self.number_of_tests += self.tests_repetitions
@@ -559,7 +559,7 @@ class Corona_Simulation(object):
             for i in range(min(len(self.active_groups), self.num_simultaneous_tests)):
                 testgroup = self.active_groups[0]
                 self.active_groups = self.active_groups[1:]
-                testresult = aux._make_test(
+                testresult = simulator._make_test(
                     testgroup[1], self.success_rate_test, self.false_posivite_rate_test, self.prob_sick,
                     self.tests_repetitions, self.test_result_decision_strategy)
                 self.number_of_tests += self.tests_repetitions
@@ -574,7 +574,7 @@ class Corona_Simulation(object):
                     if len(testgroup[1]) == 1:
                         self.sick_individuals.append(testgroup[0][0])
                     else:
-                        new_groups = aux._split_groups(testgroup)
+                        new_groups = simulator._split_groups(testgroup)
                         self.active_groups.append(new_groups[0])
                         self.active_groups.append(new_groups[1])
 
@@ -661,7 +661,7 @@ class Corona_Simulation(object):
                 if len(testgroup[1]) <= 4:
                     # if the number of people in a group is 2 or less, do individual testing
                     for j in range(len(testgroup[1])):
-                        result = aux._make_test([testgroup[1][j]], self.success_rate_test, self.false_posivite_rate_test,
+                        result = simulator._make_test([testgroup[1][j]], self.success_rate_test, self.false_posivite_rate_test,
                                                 self.prob_sick, self.tests_repetitions, self.test_result_decision_strategy)
                         self.number_of_tests += self.tests_repetitions
                         if result == 1:
@@ -682,20 +682,20 @@ class Corona_Simulation(object):
                     columns = []
                     rows = []
                     for k in range(int(np.sqrt(nearest_square)+1)):
-                        result = aux._make_test(testarray[k, :], self.success_rate_test, self.false_posivite_rate_test, self.prob_sick,
+                        result = simulator._make_test(testarray[k, :], self.success_rate_test, self.false_posivite_rate_test, self.prob_sick,
                                                 self.tests_repetitions, self.test_result_decision_strategy)
                         self.number_of_tests += self.tests_repetitions
                         if result == 1:
                             columns += [k]
                     for j in range(int(np.sqrt(nearest_square)+1)):
-                        result = aux._make_test(testarray[:, j], self.success_rate_test, self.false_posivite_rate_test, self.prob_sick,
+                        result = simulator._make_test(testarray[:, j], self.success_rate_test, self.false_posivite_rate_test, self.prob_sick,
                                                 self.tests_repetitions, self.test_result_decision_strategy)
                         self.number_of_tests += self.tests_repetitions
                         if result == 1:
                             rows += [j]
                     for k in columns:
                         for j in rows:
-                            result = aux._make_test([testarray[k, j]], self.success_rate_test, self.false_posivite_rate_test, self.prob_sick,
+                            result = simulator._make_test([testarray[k, j]], self.success_rate_test, self.false_posivite_rate_test, self.prob_sick,
                                                     self.tests_repetitions, self.test_result_decision_strategy)
                             self.number_of_tests += self.tests_repetitions
                             if result == 1:
@@ -715,20 +715,20 @@ class Corona_Simulation(object):
                     columns = []
                     rows = []
                     for k in range(int(np.sqrt(nearest_square))):
-                        result = aux._make_test(testarray[k, :], self.success_rate_test, self.false_posivite_rate_test, self.prob_sick,
+                        result = simulator._make_test(testarray[k, :], self.success_rate_test, self.false_posivite_rate_test, self.prob_sick,
                                                 self.tests_repetitions, self.test_result_decision_strategy)
                         self.number_of_tests += self.tests_repetitions
                         if result == 1:
                             columns += [k]
                     for j in range(int(np.sqrt(nearest_square))):
-                        result = aux._make_test(testarray[:, j], self.success_rate_test, self.false_posivite_rate_test, self.prob_sick,
+                        result = simulator._make_test(testarray[:, j], self.success_rate_test, self.false_posivite_rate_test, self.prob_sick,
                                                 self.tests_repetitions, self.test_result_decision_strategy)
                         self.number_of_tests += self.tests_repetitions
                         if result == 1:
                             rows += [j]
                     for k in columns:
                         for j in rows:
-                            result = aux._make_test([testarray[k, j]], self.success_rate_test, self.false_posivite_rate_test, self.prob_sick,
+                            result = simulator._make_test([testarray[k, j]], self.success_rate_test, self.false_posivite_rate_test, self.prob_sick,
                                                     self.tests_repetitions, self.test_result_decision_strategy)
                             self.number_of_tests += self.tests_repetitions
                             if result == 1:
