@@ -90,9 +90,8 @@ def calculation():
     
     print(test_strategies)
     
-    if __name__ == "__main__":
-        manager = multiprocessing.Manager()
-        return_dict = manager.dict()
+    manager = multiprocessing.Manager()
+    return_dict = manager.dict()
     
     print(test_strategies)
 
