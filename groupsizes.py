@@ -166,7 +166,7 @@ def calculation():
         'num_simultaneous_tests': num_simultaneous_tests,
     }
     filename = getName(success_rate_test)
-    path = 'D:\MATH 89S coding\COVID19-pooling\data\{}.pkl'.format(filename)
+    path = 'data/{}.pkl'.format(filename)
     with open(path, 'wb+') as fp:
         pickle.dump(data, fp)
     print('saved data as {}'.format(path))
@@ -175,10 +175,10 @@ def calculation():
 
 def plotting(filename, saveFig=0):
     # load data
-    datapath = 'D:\MATH 89S coding\COVID19-pooling\data\{}.pkl'.format(filename)
+    datapath = 'data/{}.pkl'.format(filename)
     with open(datapath, 'rb') as fp:
         data = pickle.load(fp)
-    figpath = 'D:\MATH 89S coding\COVID19-pooling\plots\{}'.format(filename)
+    figpath = 'plots/{}'.format(filename)
 
     # extract relevant parameters from data
     test_strategies = data['test_strategies']

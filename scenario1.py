@@ -257,7 +257,7 @@ def calculation():
     filename = getName(countries['DE']['scale_factor_pop'],
                        countries['DE']['scale_factor_test'],
                        success_rate_test)
-    path = 'D:\MATH 89S coding\COVID19-pooling\data\{}.pkl'.format(filename)
+    path = 'data/{}.pkl'.format(filename)
     with open(path, 'wb+') as fp:
         pickle.dump(data, fp)
     print('saved data as {}'.format(path))
@@ -266,7 +266,7 @@ def calculation():
 
 def plotting(filename, prob_sick_plot_index, saveFig=0):
     # load data
-    datapath = 'D:\MATH 89S coding\COVID19-pooling\data\{}.pkl'.format(filename)
+    datapath = 'data/{}.pkl'.format(filename)
     with open(datapath, 'rb') as fp:
         data = pickle.load(fp)
     figpath = 'plots/{}'.format(filename)
