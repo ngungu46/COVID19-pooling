@@ -1,4 +1,5 @@
 import multiprocessing
+from multiprocessing import freeze_support
 import sys
 import numpy as np
 import time
@@ -71,7 +72,7 @@ def calculation():
 
     probabilities_sick = [0.01, 0.05, 0.1, 0.15, 0.2]
     group_sizes = list(range(1, 33))
-    success_rate_test = 0.99
+    success_rate_test = 0.95
     false_posivite_rate = 0.01
     tests_repetitions = 1
     test_result_decision_strategy = 'max'
@@ -79,18 +80,21 @@ def calculation():
         'individual testing',
         'two stage testing',
         'binary splitting',
-        'RBS',
-        'purim',
-        'sobel'
+        'purim'
     ]
 
-    sample_size = 50000
+    sample_size = 10000
     num_simultaneous_tests = 100
     number_of_instances = 10
     test_duration = 5
-
-    manager = multiprocessing.Manager()
-    return_dict = manager.dict()
+    
+    print(test_strategies)
+    
+    if __name__ == "__main__":
+        manager = multiprocessing.Manager()
+        return_dict = manager.dict()
+    
+    print(test_strategies)
 
     e_num_tests = np.zeros((len(test_strategies), len(group_sizes), len(probabilities_sick)))
     e_time = np.zeros((len(test_strategies), len(group_sizes), len(probabilities_sick)))
@@ -106,7 +110,9 @@ def calculation():
     jobs = []
 
     for i, test_strategy in enumerate(test_strategies):
+        print(test_strategy)
         for j, group_size in enumerate(group_sizes):
+            print(group_size)
             for k, prob_sick in enumerate(probabilities_sick):
                 p = multiprocessing.Process(target=worker, args=(return_dict, sample_size, prob_sick,
                                                                  success_rate_test, false_posivite_rate, test_strategy, num_simultaneous_tests,
@@ -161,7 +167,7 @@ def calculation():
         'num_simultaneous_tests': num_simultaneous_tests,
     }
     filename = getName(success_rate_test)
-    path = 'data/{}.pkl'.format(filename)
+    path = 'D:\MATH 89S coding\COVID19-pooling\data\{}.pkl'.format(filename)
     with open(path, 'wb+') as fp:
         pickle.dump(data, fp)
     print('saved data as {}'.format(path))
@@ -170,10 +176,10 @@ def calculation():
 
 def plotting(filename, saveFig=0):
     # load data
-    datapath = 'data/{}.pkl'.format(filename)
+    datapath = 'D:\MATH 89S coding\COVID19-pooling\data\{}.pkl'.format(filename)
     with open(datapath, 'rb') as fp:
         data = pickle.load(fp)
-    figpath = 'plots/{}'.format(filename)
+    figpath = 'D:\MATH 89S coding\COVID19-pooling\plots\{}'.format(filename)
 
     # extract relevant parameters from data
     test_strategies = data['test_strategies']
@@ -195,8 +201,7 @@ def plotting(filename, saveFig=0):
 
     ######## poolsize / expected time ########
     labels = ['individual testing (IT)', 'two stage testing (2LT)',
-              'binary splitting (BS)', 'recursive binary splitting (RBS)',
-              'purim', 'sobel']
+              'binary splitting (BS)', 'purim']
     for k, probability_sick in enumerate(probabilities_sick):
         plt.figure()
         plt.title('infection rate: {}%'.format(int(probability_sick*100)), fontsize=BIGGER_SIZE)
@@ -221,6 +226,7 @@ def plotting(filename, saveFig=0):
 
 
 if __name__ == "__main__":
+    freeze_support()
     # either do claculations
     filename = calculation()
 

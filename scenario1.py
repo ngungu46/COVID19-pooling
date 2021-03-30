@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from CoronaTestingSimulation import Corona_Simulation
 from Statistics import Corona_Simulation_Statistics
 import multiprocessing
+import os
 
 
 '''
@@ -128,32 +129,32 @@ def calculation():
     countries = {}
 
     # as of April 2020
-    countries['UK'] = {'population': 67890000, 'tests_per_day': 12000,
-                       'scale_factor_pop': 10, 'scale_factor_test': 100}
-    countries['US'] = {'population': 328240000, 'tests_per_day': 146000,
-                       'scale_factor_pop': 10, 'scale_factor_test': 100}
-    countries['SG'] = {'population': 5640000, 'tests_per_day': 2900,
-                       'scale_factor_pop': 10, 'scale_factor_test': 10}
-    countries['IT'] = {'population': 60310000, 'tests_per_day': 46000,
-                       'scale_factor_pop': 10, 'scale_factor_test': 100}
-    countries['DE'] = {'population': 83150000, 'tests_per_day': 123000,
-                       'scale_factor_pop': 10, 'scale_factor_test': 100}
+    #countries['UK'] = {'population': 67890000, 'tests_per_day': 12000,
+    #                   'scale_factor_pop': 10, 'scale_factor_test': 100}
+    #countries['US'] = {'population': 328240000, 'tests_per_day': 146000,
+    #                   'scale_factor_pop': 10, 'scale_factor_test': 100}
+    #countries['SG'] = {'population': 5640000, 'tests_per_day': 2900,
+    #                   'scale_factor_pop': 10, 'scale_factor_test': 10}
+    #countries['IT'] = {'population': 60310000, 'tests_per_day': 46000,
+    #                  'scale_factor_pop': 10, 'scale_factor_test': 100}
+    #countries['DE'] = {'population': 83150000, 'tests_per_day': 123000,
+    #                   'scale_factor_pop': 10, 'scale_factor_test': 100}
 
     # as of September 2020
-    # countries['BR'] = {'population': 209500000, 'tests_per_day': 71230,
-    #                    'scale_factor_pop': 100, 'scale_factor_test': 100}
-    # countries['ID'] = {'population': 1353000000, 'tests_per_day': 1028280,
-    #                    'scale_factor_pop': 100, 'scale_factor_test': 100}
-    # countries['IT'] = {'population': 60310000, 'tests_per_day': 54882,
-    #                    'scale_factor_pop': 100, 'scale_factor_test': 100}
-    # countries['SG'] = {'population': 5640000, 'tests_per_day': 5414,
-    #                    'scale_factor_pop': 100, 'scale_factor_test': 10}
-    # countries['US'] = {'population': 328240000, 'tests_per_day': 720283,
-    #                    'scale_factor_pop': 100, 'scale_factor_test': 100}
-    # countries['DE'] = {'population': 83150000, 'tests_per_day': 219092,
-    #                    'scale_factor_pop': 100, 'scale_factor_test': 100}
-    # countries['UK'] = {'population': 67890000, 'tests_per_day': 221192,
-    #                    'scale_factor_pop': 100, 'scale_factor_test': 100}
+    countries['BR'] = {'population': 209500000, 'tests_per_day': 71230,
+                        'scale_factor_pop': 100, 'scale_factor_test': 100}
+    countries['ID'] = {'population': 1353000000, 'tests_per_day': 1028280,
+                        'scale_factor_pop': 100, 'scale_factor_test': 100}
+    countries['IT'] = {'population': 60310000, 'tests_per_day': 54882,
+                        'scale_factor_pop': 100, 'scale_factor_test': 100}
+    countries['SG'] = {'population': 5640000, 'tests_per_day': 5414,
+                        'scale_factor_pop': 100, 'scale_factor_test': 10}
+    countries['US'] = {'population': 328240000, 'tests_per_day': 720283,
+                       'scale_factor_pop': 100, 'scale_factor_test': 100}
+    countries['DE'] = {'population': 83150000, 'tests_per_day': 219092,
+                        'scale_factor_pop': 100, 'scale_factor_test': 100}
+    countries['UK'] = {'population': 67890000, 'tests_per_day': 221192,
+                        'scale_factor_pop': 100, 'scale_factor_test': 100}
 
     num_countries = len(countries.keys())
 
@@ -181,6 +182,7 @@ def calculation():
     jobs = []
 
     for i, test_strategy in enumerate(test_strategies):
+        print(test_strategy)
         for j, country in enumerate(countries.keys()):
             for k, prob_sick in enumerate(probabilities_sick):
                 group_size = optimal_group_sizes[prob_sick][i]
@@ -255,7 +257,7 @@ def calculation():
     filename = getName(countries['DE']['scale_factor_pop'],
                        countries['DE']['scale_factor_test'],
                        success_rate_test)
-    path = 'data/{}.pkl'.format(filename)
+    path = 'D:\MATH 89S coding\COVID19-pooling\data\{}.pkl'.format(filename)
     with open(path, 'wb+') as fp:
         pickle.dump(data, fp)
     print('saved data as {}'.format(path))
@@ -264,7 +266,7 @@ def calculation():
 
 def plotting(filename, prob_sick_plot_index, saveFig=0):
     # load data
-    datapath = 'data/{}.pkl'.format(filename)
+    datapath = 'D:\MATH 89S coding\COVID19-pooling\data\{}.pkl'.format(filename)
     with open(datapath, 'rb') as fp:
         data = pickle.load(fp)
     figpath = 'plots/{}'.format(filename)
@@ -372,13 +374,13 @@ def plotting(filename, prob_sick_plot_index, saveFig=0):
 
 
 if __name__ == "__main__":
-    recalculate = False
+    recalculate = True
     if recalculate:
         # either do calculations
         filename = calculation()
     else:
         # or use precalculated data
-        scale_factor_pop = 100
+        scale_factor_pop = 10
         scale_factor_test = 100
         filename = getName(scale_factor_pop, scale_factor_test)
 
