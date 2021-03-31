@@ -37,16 +37,18 @@ def getName(success_rate_test=0.99):
 
 def worker(return_dict, sample_size, prob_sick, success_rate_test, false_posivite_rate, test_strategy,
            num_simultaneous_tests, test_duration, group_size,
-           tests_repetitions, test_result_decision_strategy, number_of_instances):
+           tests_repetitions, test_result_decision_strategy, number_of_instances,
+           scale_factor_pop):
     '''
     worker function for multiprocessing
     performs the same test tests_repetitions many times and returns expected valkues and standard deviations
     '''
 
-    stat_test = Corona_Simulation_Statistics(sample_size, prob_sick, success_rate_test,
+    stat_test = Corona_Simulation_Statistics(prob_sick, success_rate_test,
                                              false_posivite_rate, test_strategy,
                                              num_simultaneous_tests, test_duration, group_size,
-                                             tests_repetitions, test_result_decision_strategy)
+                                             tests_repetitions, test_result_decision_strategy,
+                                             scale_factor_pop)
     stat_test.statistical_analysis(sample_size, num_simultaneous_tests, number_of_instances)
     print('Calculated {} for {} prob sick {}'.format(test_strategy, group_size, prob_sick))
     print('scaled to {} population and {} simulataneous tests\n'.format(sample_size, num_simultaneous_tests))
@@ -70,23 +72,24 @@ def calculation():
     randomseed = 19
     np.random.seed(randomseed)
 
-    probabilities_sick = [0.01, 0.05, 0.1, 0.15, 0.2]
+    probabilities_sick = [0.001, 0.0025, 0.005, 0.0075, 0.01, 0.025, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3]
     group_sizes = list(range(1, 33))
     success_rate_test = 0.95
     false_posivite_rate = 0.01
     tests_repetitions = 1
     test_result_decision_strategy = 'max'
     test_strategies = [
-        'individual testing',
-        'two stage testing',
-        'binary splitting',
+        'individual-testing',
+        'two-stage-testing',
+        'binary-splitting',
         'purim'
     ]
 
-    sample_size = 10000
+    sample_size = 50000
     num_simultaneous_tests = 100
     number_of_instances = 10
     test_duration = 5
+    scale_factor_pop = 10
     
     print(test_strategies)
     
@@ -116,7 +119,7 @@ def calculation():
                 p = multiprocessing.Process(target=worker, args=(return_dict, sample_size, prob_sick,
                                                                  success_rate_test, false_posivite_rate, test_strategy, num_simultaneous_tests,
                                                                  test_duration, group_size, tests_repetitions, test_result_decision_strategy,
-                                                                 number_of_instances))
+                                                                 number_of_instances, scale_factor_pop))
                 jobs.append(p)
                 p.start()
     for proc in jobs:
