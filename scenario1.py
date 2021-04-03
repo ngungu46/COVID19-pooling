@@ -77,7 +77,7 @@ def calculation():
     np.random.seed(randomseed)
 
     probabilities_sick = [0.001, 0.0025, 0.005, 0.0075, 0.01, 0.025, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3]
-    success_rate_test = 0.99
+    success_rate_test = 0.95
     false_posivite_rate = 0.01
     tests_repetitions = 1
     test_result_decision_strategy = 'max'
@@ -111,7 +111,46 @@ def calculation():
         optimal_group_sizes[0.15] = [1, 3, 4, 6]
         optimal_group_sizes[0.2] = [1, 3, 2, 5]
         optimal_group_sizes[0.25] = [1, 3, 2, 5]
-        optimal_group_sizes[0.3] = [1, 3, 1, 4]
+        optimal_group_sizes[0.3] = [1, 3, 2, 32]
+    elif success_rate_test == 0.9:
+        optimal_group_sizes[0.001] = [1, 31, 32, 32]
+        optimal_group_sizes[0.0025] = [1, 23, 32, 32]
+        optimal_group_sizes[0.005] = [1, 16, 32, 32]
+        optimal_group_sizes[0.0075] = [1, 13, 32, 32]
+        optimal_group_sizes[0.01] = [1, 10, 32, 27]
+        optimal_group_sizes[0.025] = [1, 7, 32, 15]
+        optimal_group_sizes[0.05] = [1, 5, 31, 11]
+        optimal_group_sizes[0.1] = [1, 4, 32, 7]
+        optimal_group_sizes[0.15] = [1, 4, 32, 6]
+        optimal_group_sizes[0.2] = [1, 3, 32, 5]
+        optimal_group_sizes[0.25] = [1, 3, 32, 32]
+        optimal_group_sizes[0.3] = [1, 3, 31, 32]
+    elif success_rate_test == 0.85:
+        optimal_group_sizes[0.001] = [1, 31, 32, 32]
+        optimal_group_sizes[0.0025] = [1, 21, 32, 32]
+        optimal_group_sizes[0.005] = [1, 16, 32, 32]
+        optimal_group_sizes[0.0075] = [1, 12, 32, 31]
+        optimal_group_sizes[0.01] = [1, 13, 32, 29]
+        optimal_group_sizes[0.025] = [1, 8, 32, 16]
+        optimal_group_sizes[0.05] = [1, 5, 32, 11]
+        optimal_group_sizes[0.1] = [1, 4, 32, 8]
+        optimal_group_sizes[0.15] = [1, 4, 32, 6]
+        optimal_group_sizes[0.2] = [1, 3, 32, 6]
+        optimal_group_sizes[0.25] = [1, 3, 32, 32]
+        optimal_group_sizes[0.3] = [1, 28, 31, 32]
+    elif success_rate_test == 0.8:
+        optimal_group_sizes[0.001] = [1, 31, 32, 32]
+        optimal_group_sizes[0.0025] = [1, 28, 32, 32]
+        optimal_group_sizes[0.005] = [1, 18, 31, 32]
+        optimal_group_sizes[0.0075] = [1, 14, 32, 31]
+        optimal_group_sizes[0.01] = [1, 12, 32, 29]
+        optimal_group_sizes[0.025] = [1, 7, 31, 16]
+        optimal_group_sizes[0.05] = [1, 8, 32, 11]
+        optimal_group_sizes[0.1] = [1, 6, 32, 8]
+        optimal_group_sizes[0.15] = [1, 4, 32, 7]
+        optimal_group_sizes[0.2] = [1, 4, 31, 6]
+        optimal_group_sizes[0.25] = [1, 4, 32, 32]
+        optimal_group_sizes[0.3] = [1, 28, 32, 32]
     elif success_rate_test == 0.75:
         optimal_group_sizes[0.001] = [1, 32, 32, 32]
         optimal_group_sizes[0.0025] = [1, 21, 32, 32]
@@ -130,10 +169,8 @@ def calculation():
     test_strategies = [
         'individual-testing',
         'two-stage-testing',
-        'binary-splitting',
-        'RBS',
-        'purim',
-        'sobel'
+        'binary-splitting'
+        'purim'
     ]
 
     # use scale_factor_pop = 10 for the original results in the paper
@@ -298,7 +335,7 @@ def plotting(filename, prob_sick_plot_index, saveFig=0):
     colors = ['C0', 'C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9']
     linestyles = ['-', '-', '-', '-', '-', '--']
     labels = ['Individual testing', '2-level pooling',
-              'Binary splitting', 'Recursive binary splitting', 'Purim', 'Sobel-R1']
+              'Binary splitting', 'Purim']
 
     ######## prob sick / sick persons per test ########
     plt.figure()
@@ -386,7 +423,7 @@ def plotting(filename, prob_sick_plot_index, saveFig=0):
 
 
 if __name__ == "__main__":
-    recalculate = True
+    recalculate = False 
     if recalculate:
         # either do calculations
         filename = calculation()

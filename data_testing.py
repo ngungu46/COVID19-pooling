@@ -23,22 +23,22 @@ embedding_list = [data_dict[word] for word in word_list]
 # print(embedding_list)
 
 
-embedding_list2 = data_dict['runtime']
+embedding_list2 = data_dict['e_false_positive_rate']
 
 print(embedding_list2)
 
 with open("data/groupsizes_0.95.pkl", "rb") as l:
     f = pkl.load(l)
     
-e_num_tests = f['e_num_tests ']
-e_time = f['e_time']
-e_false_positive_rate = f['e_false_positive_rate']
-e_num_confirmed_sick_individuals = f['e_num_confirmed_sick_individuals']
-e_ratio_of_sick_found = f['e_ratio_of_sick_found']
-sd_num_tests = f['sd_num_tests']
-sd_time = f['sd_time']
-sd_false_positive_rate = f['sd_false_positive_rate']
-sd_ratio_of_sick_found = f['sd_ratio_of_sick_found']
+e_num_tests = f['e_num_tests '].flatten()
+e_time = f['e_time'].flatten()
+e_false_positive_rate = f['e_false_positive_rate'].flatten()
+e_num_confirmed_sick_individuals = f['e_num_confirmed_sick_individuals'].flatten()
+e_ratio_of_sick_found = f['e_ratio_of_sick_found'].flatten()
+sd_num_tests = f['sd_num_tests'].flatten()
+sd_time = f['sd_time'].flatten()
+sd_false_positive_rate = f['sd_false_positive_rate'].flatten()
+sd_ratio_of_sick_found = f['sd_ratio_of_sick_found'].flatten()
 
 data = {
         'e_num_tests ': e_num_tests,
