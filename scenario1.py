@@ -48,7 +48,7 @@ def worker(return_dict, sample_size, prob_sick, success_rate_test, false_posivit
 
     stat_test = Corona_Simulation_Statistics(prob_sick, success_rate_test,
                                              false_posivite_rate, test_strategy,
-                                             test_duration, group_size,
+                                             num_simultaneous_tests, test_duration, group_size,
                                              tests_repetitions, test_result_decision_strategy,
                                              scale_factor_pop)
     stat_test.statistical_analysis(sample_size, num_simultaneous_tests, number_of_instances)
@@ -423,15 +423,16 @@ def plotting(filename, prob_sick_plot_index, saveFig=0):
 
 
 if __name__ == "__main__":
-    recalculate = False 
+    recalculate = True 
     if recalculate:
         # either do calculations
         filename = calculation()
     else:
         # or use precalculated data
+        success_rate_test = 0.95
         scale_factor_pop = 10
         scale_factor_test = 100
-        filename = getName(scale_factor_pop, scale_factor_test)
+        filename = getName(scale_factor_pop, scale_factor_test, success_rate_test)
 
     saveFig = 0
     prob_sick_plot_index = 4  # 4 -> 0.01
