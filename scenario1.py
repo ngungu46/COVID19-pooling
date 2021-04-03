@@ -169,7 +169,7 @@ def calculation():
     test_strategies = [
         'individual-testing',
         'two-stage-testing',
-        'binary-splitting'
+        'binary-splitting',
         'purim'
     ]
 

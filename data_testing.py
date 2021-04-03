@@ -10,7 +10,7 @@ import pickle
 import pickle as pkl
 import pandas as pd
 
-fin = 'D:\MATH 89S coding\COVID19-pooling\data\groupsizes_0.95.pkl'
+fin = 'data\groupsizes_0.95.pkl'
 
 data_dict = pickle.load(open(fin, 'rb'), encoding='latin1')
 
@@ -23,7 +23,7 @@ embedding_list = [data_dict[word] for word in word_list]
 # print(embedding_list)
 
 
-embedding_list2 = data_dict['e_false_positive_rate']
+embedding_list2 = data_dict['test_strategies']
 
 print(embedding_list2)
 
