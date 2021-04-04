@@ -423,14 +423,14 @@ def plotting(filename, prob_sick_plot_index, saveFig=0):
 
 
 if __name__ == "__main__":
-    recalculate = True 
+    recalculate = False
     if recalculate:
         # either do calculations
         filename = calculation()
     else:
         # or use precalculated data
-        success_rate_test = 0.95
-        scale_factor_pop = 10
+        success_rate_test = 0.75
+        scale_factor_pop = 100
         scale_factor_test = 100
         filename = getName(scale_factor_pop, scale_factor_test, success_rate_test)
 
