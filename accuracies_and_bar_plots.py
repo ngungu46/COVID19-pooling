@@ -36,7 +36,7 @@ def getName(success_rate_test=0.99):
 
 def worker(return_dict, sample_size, prob_sick, success_rate_test, false_posivite_rate, test_strategy,
            num_simultaneous_tests, test_duration, group_size,
-           tests_repetitions, test_result_decision_strategy, number_of_instances):
+           tests_repetitions, test_result_decision_strategy, number_of_instances, scale_factor_pop):
     '''
     worker function for multiprocessing
     performs the same test tests_repetitions many times and returns expected valkues and standard deviations
@@ -44,8 +44,8 @@ def worker(return_dict, sample_size, prob_sick, success_rate_test, false_posivit
 
     stat_test = Corona_Simulation_Statistics(prob_sick, success_rate_test,
                                              false_posivite_rate, test_strategy,
-                                             test_duration, group_size,
-                                             tests_repetitions, test_result_decision_strategy)
+                                             num_simultaneous_tests, test_duration, group_size,
+                                             tests_repetitions, test_result_decision_strategy, scale_factor_pop)
 
     stat_test.statistical_analysis(sample_size, num_simultaneous_tests, number_of_instances)
     print('Calculated {} for {} prob sick {}'.format(test_strategy, group_size, prob_sick))
@@ -89,30 +89,30 @@ def calculation():
         ]
     elif success_rate_test == 0.95:
         test_strategies = [
-            ['individual testing', 1],
-            ['two stage testing', 5],
-            ['binary splitting', 31],
+            ['individual-testing', 1],
+            ['two-stage-testing', 5],
+            ['binary-splitting', 31],
             ['purim', 11]
         ]   
     elif success_rate_test == 0.9:
         test_strategies = [
-            ['individual testing', 1],
-            ['two stage testing', 5],
-            ['binary splitting', 31],
+            ['individual-testing', 1],
+            ['two-stage-testing', 5],
+            ['binary-splitting', 31],
             ['purim', 11]
         ]
     elif success_rate_test == 0.85:
         test_strategies = [
-            ['individual testing', 1],
-            ['two stage testing', 5],
-            ['binary splitting', 32],
+            ['individual-testing', 1],
+            ['two-stage-testing', 5],
+            ['binary-splitting', 32],
             ['purim', 11]
         ]
     elif success_rate_test == 0.75:
         test_strategies = [
-            ['individual testing', 1],
-            ['two stage testing', 12],
-            ['binary splitting', 32],
+            ['individual-testing', 1],
+            ['two-stage-testing', 12],
+            ['binary-splitting', 32],
             ['purim', 31]
         ]
 
@@ -120,6 +120,7 @@ def calculation():
     num_simultaneous_tests = 100
     number_of_instances = 10
     test_duration = 5
+    scale_factor_pop = 100
 
     manager = multiprocessing.Manager()
     return_dict = manager.dict()
@@ -142,7 +143,7 @@ def calculation():
         p = multiprocessing.Process(target=worker, args=(return_dict, sample_size, prob_sick,
                                                          success_rate_test, false_posivite_rate, test_strategy, num_simultaneous_tests,
                                                          test_duration, group_size, tests_repetitions, test_result_decision_strategy,
-                                                         number_of_instances))
+                                                         number_of_instances, scale_factor_pop))
         jobs.append(p)
         p.start()
     for proc in jobs:
@@ -253,10 +254,16 @@ def plotting(filename, saveFig=0):
 
     if success_rate_test == 0.99:
         labelheight = 150
+    elif success_rate_test == 0.95:
+        labelheight = 200
     elif success_rate_test == 0.75:
         labelheight = 1050
     if success_rate_test == 0.99:
         numberheight = 70
+    elif success_rate_test == 0.95:
+        numberheight = 60
+    elif success_rate_test == 0.9:
+        numberheight = 50
     elif success_rate_test == 0.75:
         numberheight = 20
 
@@ -300,10 +307,10 @@ def plotting(filename, saveFig=0):
 
 if __name__ == "__main__":
     # either do calculations
-    filename = calculation()
+    #filename = calculation()
 
     # or use precalculated data
-    # filename = getName(success_rate_test=0.99)
+    filename = getName(success_rate_test=0.95)
 
     saveFig = 0
     plotting(filename, saveFig)
