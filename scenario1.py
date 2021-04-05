@@ -429,7 +429,7 @@ if __name__ == "__main__":
         filename = calculation()
     else:
         # or use precalculated data
-        success_rate_test = 0.75
+        success_rate_test = 0.9
         scale_factor_pop = 100
         scale_factor_test = 100
         filename = getName(scale_factor_pop, scale_factor_test, success_rate_test)

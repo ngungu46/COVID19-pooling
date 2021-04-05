@@ -75,28 +75,45 @@ def calculation():
     randomseed = 19
     np.random.seed(randomseed)
 
-    prob_sick = 0.01
-    success_rate_test = 0.99
+    prob_sick = 0.05
+    success_rate_test = 0.95
     false_posivite_rate = 0.01
     tests_repetitions = 1
     test_result_decision_strategy = 'max'
     if success_rate_test == 0.99:
         test_strategies = [
             ['individual-testing', 1],
-            ['two-stage-testing', 10],
-            ['binary-splitting', 32],
-            ['RBS', 32],
-            ['purim', 27],
-            ['sobel', 31]
+            ['two-stage-testing', 5],
+            ['binary-splitting', 8],
+            ['purim', 10]
+        ]
+    elif success_rate_test == 0.95:
+        test_strategies = [
+            ['individual testing', 1],
+            ['two stage testing', 5],
+            ['binary splitting', 31],
+            ['purim', 11]
+        ]   
+    elif success_rate_test == 0.9:
+        test_strategies = [
+            ['individual testing', 1],
+            ['two stage testing', 5],
+            ['binary splitting', 31],
+            ['purim', 11]
+        ]
+    elif success_rate_test == 0.85:
+        test_strategies = [
+            ['individual testing', 1],
+            ['two stage testing', 5],
+            ['binary splitting', 32],
+            ['purim', 11]
         ]
     elif success_rate_test == 0.75:
         test_strategies = [
             ['individual testing', 1],
             ['two stage testing', 12],
             ['binary splitting', 32],
-            ['RBS', 32],
-            ['purim', 31],
-            ['sobel', 32]
+            ['purim', 31]
         ]
 
     sample_size = 100000
@@ -283,10 +300,10 @@ def plotting(filename, saveFig=0):
 
 if __name__ == "__main__":
     # either do calculations
-    #filename = calculation()
+    filename = calculation()
 
     # or use precalculated data
-    filename = getName(success_rate_test=0.99)
+    # filename = getName(success_rate_test=0.99)
 
     saveFig = 0
     plotting(filename, saveFig)
